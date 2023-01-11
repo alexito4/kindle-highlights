@@ -1,14 +1,14 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
     name: "kindle-highlights",
     platforms: [.macOS(.v12)],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .exact("1.1.2")),
-        .package(url: "https://github.com/pointfreeco/swift-parsing.git", .exact("0.9.1")),
-//        .package(url: "https://github.com/alexito4/Baggins.git", .exact("1.1.0")),
-        .package(name: "Baggins", path: "../Baggins"),
+        .package(url: "https://github.com/apple/swift-argument-parser", exact: "1.2.0"),
+        .package(url: "https://github.com/pointfreeco/swift-parsing.git", exact: "0.11.0"),
+        .package(url: "https://github.com/pointfreeco/swift-custom-dump.git", exact: "0.6.1"),
+        .package(url: "https://github.com/alexito4/Baggins.git", branch: "main"),
     ],
     targets: [
         .executableTarget(
@@ -21,7 +21,10 @@ let package = Package(
         ),
         .testTarget(
             name: "kindle-highlightsTests",
-            dependencies: ["kindle-highlights"]
+            dependencies: [
+                "kindle-highlights",
+                .product(name: "CustomDump", package: "swift-custom-dump"),
+            ]
         ),
     ]
 )

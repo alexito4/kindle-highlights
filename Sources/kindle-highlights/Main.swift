@@ -1,9 +1,8 @@
 import ArgumentParser
+import Baggins
 import Flow
 import Foundation
 import Parsing
-import Baggins
-import AppKit
 
 @main
 struct App: ParsableCommand {
@@ -12,10 +11,10 @@ struct App: ParsableCommand {
 
     @Option(name: [.customLong("from"), .short])
     var fromDate = Date.distantPast
-    
+
     @Flag(name: [.customLong("cp")])
     var useClipboard = false
-    
+
     @Flag
     var formatAdmonitions = false
 
@@ -24,10 +23,8 @@ struct App: ParsableCommand {
         contents = try String(contentsOfFile: clippingsFilePath)
 //        print(contents)
 
-        var input = contents[...]
-        let output = try myClippingsParser.parse(&input)
-//        print(output)
-//        print(">>>", input)
+        let output = try MyClippingsParser().parse(contents)
+
         guard !output.isEmpty else {
             throw SimpleError("No highlights found.")
         }
@@ -42,35 +39,43 @@ struct App: ParsableCommand {
         }
 
         var text = ""
-        
+
         for h in highlights {
             if formatAdmonitions {
                 print("""
-                    > [!summary] \(h.metadata.page.map { "Page \($0)" } ?? "") | Location \(h.metadata.location.0) \(h.metadata.location.1.map { "-\($0)" } ?? "")
-                    > \(h.text)
-                    
-                    
-                    """, to: &text)
+                > [!summary] \(h.metadata.page.map { "Page \($0)" } ?? "") | Location \(h.metadata.location.start) \(h.metadata.location.end.map { "-\($0)" } ?? "")
+                > \(h.text)
+
+
+                """, to: &text)
             } else {
                 print("- \(h.text)", to: &text)
             }
         }
-        
 
         print("\n> \(lastDate)", to: &text)
-        
+
         if useClipboard {
-            let clipboard = NSPasteboard.general
-            clipboard.declareTypes([.string], owner: nil)
-            if clipboard.setString(text, forType: .string) {
-                print("Copied to clipboard.")
-            } else {
-                print("Failed to copy to clipboard.")
-            }
+            copyToPasteboard(text)
         } else {
             print(text)
         }
     }
+}
+
+#if canImport(AppKit)
+import AppKit
+#endif
+func copyToPasteboard(_ text: String) {
+    #if canImport(AppKit)
+    let clipboard = NSPasteboard.general
+    clipboard.declareTypes([.string], owner: nil)
+    if clipboard.setString(text, forType: .string) {
+        print("Copied to clipboard.")
+    } else {
+        print("Failed to copy to clipboard.")
+    }
+    #endif
 }
 
 let dateFormatter = ISO8601DateFormatter().then {
@@ -85,5 +90,3 @@ extension Date: ExpressibleByArgument {
         self = date
     }
 }
-
-
