@@ -23,7 +23,7 @@ struct App: ParsableCommand {
         contents = try String(contentsOfFile: clippingsFilePath)
 //        print(contents)
 
-        let output = try myClippingsParser.parse(contents)
+        let output = try MyClippingsParser().parse(contents)
 
         guard !output.isEmpty else {
             throw SimpleError("No highlights found.")
