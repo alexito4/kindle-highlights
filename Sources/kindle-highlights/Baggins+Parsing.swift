@@ -7,14 +7,6 @@ extension Parsers {
 }
 
 extension Parser where Input == Substring {
-    /// Parses the given String encapsulating the boilerplate of dealing with Substring
-    func parse(_ raw: String) throws -> Output {
-        var input = raw[...]
-        return try parse(&input)
-    }
-}
-
-extension Parser where Input == Substring {
     /// Parses the given String and prints the output and the pending input.
     func printDebug(_ raw: String) throws -> Output {
         var input = raw[...]

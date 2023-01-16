@@ -14,20 +14,20 @@ final class ParsingTests: XCTestCase {
         // Test with and without newlines to ensure this specific parser does works independently of others.
         do {
             let raw = "Tress of the Emerald Sea (Brandon Sanderson)"
-            var input = raw[...]
+            var input = raw[...].utf8
             let output = try BookTitleAndAuthorParser().parse(&input)
             XCTAssertNoDifference(output, expected)
-            XCTAssertNoDifference(input, "")
+            XCTAssertNoDifference(String(input)!, "")
         }
         do {
             let raw = """
             Tress of the Emerald Sea (Brandon Sanderson)
 
             """
-            var input = raw[...]
+            var input = raw[...].utf8
             let output = try BookTitleAndAuthorParser().parse(&input)
             XCTAssertNoDifference(output, expected)
-            XCTAssertEqual(input, "\n")
+            XCTAssertEqual(String(input)!, "\n")
         }
     }
 
@@ -40,20 +40,20 @@ final class ParsingTests: XCTestCase {
         // Test with and without newlines to ensure this specific parser does works independently of others.
         do {
             let raw = "The Final Empire: 1 (MISTBORN) (Sanderson, Brandon)"
-            var input = raw[...]
+            var input = raw[...].utf8
             let output = try BookTitleAndAuthorParser().parse(&input)
             XCTAssertNoDifference(output, expected)
-            XCTAssertNoDifference(input, "")
+            XCTAssertNoDifference(String(input)!, "")
         }
         do {
             let raw = """
             The Final Empire: 1 (MISTBORN) (Sanderson, Brandon)
 
             """
-            var input = raw[...]
+            var input = raw[...].utf8
             let output = try BookTitleAndAuthorParser().parse(&input)
             XCTAssertNoDifference(output, expected)
-            XCTAssertNoDifference(input, "\n")
+            XCTAssertNoDifference(String(input)!, "\n")
         }
     }
 
@@ -65,14 +65,14 @@ final class ParsingTests: XCTestCase {
 
         content
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try MetadataParser().parse(&input)
         XCTAssertNoDifference(output, Metadata(
             page: 266,
             location: Location(start: 4071, end: 4072),
             date: DateFormatter.metadataDateFormatter.date(from: "Thursday, 19 April 2018 10:44:34")!
         ))
-        XCTAssertNoDifference(input, "\n\ncontent")
+        XCTAssertNoDifference(String(input)!, "\n\ncontent")
     }
 
     func testMetadata_Highlight_NoPage_LocationStartEnd() throws {
@@ -81,14 +81,14 @@ final class ParsingTests: XCTestCase {
 
         content
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try MetadataParser().parse(&input)
         XCTAssertNoDifference(output, Metadata(
             page: nil,
             location: Location(start: 153, end: 154),
             date: DateFormatter.metadataDateFormatter.date(from: "Sunday, 23 September 2018 22:48:46")!
         ))
-        XCTAssertNoDifference(input, "\n\ncontent")
+        XCTAssertNoDifference(String(input)!, "\n\ncontent")
     }
 
     func testMetadata_Note_Page_LocationStart() throws {
@@ -97,14 +97,14 @@ final class ParsingTests: XCTestCase {
 
         content
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try MetadataParser().parse(&input)
         XCTAssertNoDifference(output, Metadata(
             page: 307,
             location: Location(start: 4965, end: nil),
             date: DateFormatter.metadataDateFormatter.date(from: "Monday, 7 September 2020 15:42:39")!
         ))
-        XCTAssertNoDifference(input, "\n\ncontent")
+        XCTAssertNoDifference(String(input)!, "\n\ncontent")
     }
 
     // MARK: - Content
@@ -115,10 +115,10 @@ final class ParsingTests: XCTestCase {
         ==========
         The Lost Metal: A Mistborn Novel (Sanderson, Brandon)
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try ContentParser().parse(&input)
         XCTAssertNoDifference(output, "A Shardblade did not cut living flesh; it severed the soul itself.")
-        XCTAssertNoDifference(input, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
+        XCTAssertNoDifference(String(input)!, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
     }
 
     // MARK: - Full Highlight
@@ -132,7 +132,7 @@ final class ParsingTests: XCTestCase {
         ==========
         The Lost Metal: A Mistborn Novel (Sanderson, Brandon)
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try HighlightParser().parse(&input)
         XCTAssertNoDifference(output, .init(
             book: .init(
@@ -148,7 +148,7 @@ final class ParsingTests: XCTestCase {
             la boca del estómago. Era una sensación parecida a la que tienes cuando alguien te mira la
             """
         ))
-        XCTAssertNoDifference(input, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
+        XCTAssertNoDifference(String(input)!, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
     }
 
     func testFull_Highlight_NoPage_LocationStartEnd() throws {
@@ -160,7 +160,7 @@ final class ParsingTests: XCTestCase {
         ==========
         The Lost Metal: A Mistborn Novel (Sanderson, Brandon)
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try HighlightParser().parse(&input)
         XCTAssertNoDifference(output, .init(
             book: .init(
@@ -176,7 +176,7 @@ final class ParsingTests: XCTestCase {
             The stores don’t bother to list prices. If you have to ask, you can’t afford it.
             """
         ))
-        XCTAssertNoDifference(input, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
+        XCTAssertNoDifference(String(input)!, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
     }
 
     func testFull_BookWithParenthesis() throws {
@@ -188,7 +188,7 @@ final class ParsingTests: XCTestCase {
         ==========
         The Lost Metal: A Mistborn Novel (Sanderson, Brandon)
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try HighlightParser().parse(&input)
         XCTAssertNoDifference(output, .init(
             book: .init(
@@ -204,7 +204,7 @@ final class ParsingTests: XCTestCase {
             “Women are like … thunderstorms. They’re beautiful to look at, and sometimes they’re nice to listen to—but most of the time they’re just plain inconvenient.”
             """
         ))
-        XCTAssertNoDifference(input, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
+        XCTAssertNoDifference(String(input)!, "==========\nThe Lost Metal: A Mistborn Novel (Sanderson, Brandon)")
     }
 
     // MARK: - My Clippings File, multiple highlights
@@ -222,7 +222,7 @@ final class ParsingTests: XCTestCase {
         they stayed together. The two of them had both been changed by their journeys—but in complementary ways.
         ==========
         """
-        var input = raw[...]
+        var input = raw[...].utf8
         let output = try MyClippingsParser().parse(&input)
         XCTAssertNoDifference(output, [
             .init(
@@ -254,6 +254,6 @@ final class ParsingTests: XCTestCase {
                 """
             ),
         ])
-        XCTAssertNoDifference(input, "")
+        XCTAssertNoDifference(String(input)!, "")
     }
 }
