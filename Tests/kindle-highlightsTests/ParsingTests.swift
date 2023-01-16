@@ -70,7 +70,7 @@ final class ParsingTests: XCTestCase {
         XCTAssertNoDifference(output, Metadata(
             page: 266,
             location: Location(start: 4071, end: 4072),
-            date: metadataDateFormatter.date(from: "Thursday, 19 April 2018 10:44:34")!
+            date: DateFormatter.metadataDateFormatter.date(from: "Thursday, 19 April 2018 10:44:34")!
         ))
         XCTAssertNoDifference(input, "\n\ncontent")
     }
@@ -86,7 +86,7 @@ final class ParsingTests: XCTestCase {
         XCTAssertNoDifference(output, Metadata(
             page: nil,
             location: Location(start: 153, end: 154),
-            date: metadataDateFormatter.date(from: "Sunday, 23 September 2018 22:48:46")!
+            date: DateFormatter.metadataDateFormatter.date(from: "Sunday, 23 September 2018 22:48:46")!
         ))
         XCTAssertNoDifference(input, "\n\ncontent")
     }
@@ -102,7 +102,7 @@ final class ParsingTests: XCTestCase {
         XCTAssertNoDifference(output, Metadata(
             page: 307,
             location: Location(start: 4965, end: nil),
-            date: metadataDateFormatter.date(from: "Monday, 7 September 2020 15:42:39")!
+            date: DateFormatter.metadataDateFormatter.date(from: "Monday, 7 September 2020 15:42:39")!
         ))
         XCTAssertNoDifference(input, "\n\ncontent")
     }
@@ -142,7 +142,7 @@ final class ParsingTests: XCTestCase {
             metadata: .init(
                 page: 266,
                 location: .init(start: 4071, end: 4072),
-                date: metadataDateFormatter.date(from: "Thursday, 19 April 2018 10:44:34")!
+                date: DateFormatter.metadataDateFormatter.date(from: "Thursday, 19 April 2018 10:44:34")!
             ),
             text: """
             la boca del estómago. Era una sensación parecida a la que tienes cuando alguien te mira la
@@ -170,7 +170,7 @@ final class ParsingTests: XCTestCase {
             metadata: .init(
                 page: nil,
                 location: .init(start: 153, end: 154),
-                date: metadataDateFormatter.date(from: "Sunday, 23 September 2018 22:48:46")!
+                date: DateFormatter.metadataDateFormatter.date(from: "Sunday, 23 September 2018 22:48:46")!
             ),
             text: """
             The stores don’t bother to list prices. If you have to ask, you can’t afford it.
@@ -198,7 +198,7 @@ final class ParsingTests: XCTestCase {
             metadata: .init(
                 page: 307,
                 location: .init(start: 4964, end: 4966),
-                date: metadataDateFormatter.date(from: "Monday, 7 September 2020 15:42:17")!
+                date: DateFormatter.metadataDateFormatter.date(from: "Monday, 7 September 2020 15:42:17")!
             ),
             text: """
             “Women are like … thunderstorms. They’re beautiful to look at, and sometimes they’re nice to listen to—but most of the time they’re just plain inconvenient.”
@@ -233,7 +233,7 @@ final class ParsingTests: XCTestCase {
                 metadata: .init(
                     page: 1043,
                     location: .init(start: 15980, end: 15981),
-                    date: metadataDateFormatter.date(from: "Sunday, 1 May 2022 12:18:38")!
+                    date: DateFormatter.metadataDateFormatter.date(from: "Sunday, 1 May 2022 12:18:38")!
                 ),
                 text: """
                 Listener gemhearts were not gaudy or ostentatious, like those of greatshells. Clouded white, almost the color of bone, they were beautiful, intimate things.
@@ -247,7 +247,7 @@ final class ParsingTests: XCTestCase {
                 metadata: .init(
                     page: 363,
                     location: .init(start: 5552, end: 5552),
-                    date: metadataDateFormatter.date(from: "Sunday, 8 January 2023 13:02:45")!
+                    date: DateFormatter.metadataDateFormatter.date(from: "Sunday, 8 January 2023 13:02:45")!
                 ),
                 text: """
                 they stayed together. The two of them had both been changed by their journeys—but in complementary ways.

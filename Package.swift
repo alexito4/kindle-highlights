@@ -24,6 +24,9 @@ let package = Package(
             dependencies: [
                 "kindle-highlights",
                 .product(name: "CustomDump", package: "swift-custom-dump"),
+            ],
+            resources: [
+                .copy("TestData"),
             ]
         ),
     ]

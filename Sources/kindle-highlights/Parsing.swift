@@ -124,7 +124,7 @@ struct MetadataParser: Parser {
     }
 }
 
-private extension DateFormatter {
+extension DateFormatter {
     /// Thursday, 19 April 2018 10:44:34
     static let metadataDateFormatter = DateFormatter().then {
         $0.dateFormat = "EEEE, d MMM yyyy HH:mm:ss"
